@@ -1,0 +1,29 @@
+Kp_z=6;
+Kp_der_z=1;
+Td_z=12;
+g=9.81;
+C_x=0.25;
+m=1.5;
+C=1;
+N=10;
+
+syms K_1;
+K_2=2;
+
+K1= tf ([-K_1],[1 0])
+K2= tf ([-K_2],[1])
+G= tf ([1/m],[1 C]);
+G=minreal(G)
+
+K=parallel (K1,K2);
+K=minreal (K)
+
+H=series (K,G)
+
+% T= H/(1+H)
+% minreal (T)
+
+[Gm,Pm,Wgm,Wpm] = margin(H)
+
+T=feedback (H,1)
+nyquist(H)
